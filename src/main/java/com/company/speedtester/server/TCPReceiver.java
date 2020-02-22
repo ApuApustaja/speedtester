@@ -55,7 +55,7 @@ public class TCPReceiver extends Receiver {
         }
         System.out.println("Wątek (TCP): odebrano " + receivedBytes/1024.0 + "kb danych w czasie " + watch.getTime() + "s z prędkością " + (receivedBytes/1024.0)/watch.getTime() + "kb/sec");
       } catch (IOException e) {
-        e.printStackTrace();
+        System.out.println("socket closed");
       }
     }
   }

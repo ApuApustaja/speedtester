@@ -2,6 +2,8 @@ package com.company.speedtester.server;
 
 import java.util.Scanner;
 
+import static javafx.application.Platform.exit;
+
 public class SpeedTesterServer {
 
     public static void main(String[] args) {
@@ -16,20 +18,20 @@ public class SpeedTesterServer {
         udpServ.start();
 
         System.out.printf("1. stop \n 2. exit");
+        try {
         while (true){
-            try {
                 if (scanPort.nextLine().equals("1")) {
                     tcpServ.terminate();
                     udpServ.terminate();
-                } else if (scanPort.nextLine().equals("2")) {
+                }
+                if (scanPort.nextLine().equals("exit")) {
                     udpServ.terminate();
                     tcpServ.terminate();
                     break;
                 }
-            } catch (Exception e){
-                System.out.println("Wrong input");
-            }
-
+        }
+        } catch (Exception e){
+            System.out.println("Wrong input");
         }
     }
 }

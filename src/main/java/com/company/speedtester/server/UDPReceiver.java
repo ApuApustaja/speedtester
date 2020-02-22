@@ -31,8 +31,8 @@ public class UDPReceiver extends Receiver {
       DatagramPacket datagramPacket = new DatagramPacket(dataReceived, dataReceived.length);
       try {
         udpSocket.receive(datagramPacket);
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException exception ) {
+        System.out.println("socket closed");
       }
 
       String clientMessage = new String(dataReceived);
