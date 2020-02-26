@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.concurrent.TimeUnit;
 
 public class UDPReceiver extends Receiver {
   private DatagramSocket udpSocket;
@@ -26,7 +27,7 @@ public class UDPReceiver extends Receiver {
     int sizeOfBuffer = 32;
     StopWatch watch = new StopWatch();
     byte[] dataReceived = new byte[sizeOfBuffer];
-    watch.start();
+
     while (Avaible) {
       DatagramPacket datagramPacket = new DatagramPacket(dataReceived, dataReceived.length);
       try {
@@ -39,12 +40,15 @@ public class UDPReceiver extends Receiver {
 
       if (clientMessage.contains("FINE")) {
         watch.stop();
-        System.out.println("Wątek (UDP): odebrano " + receivedBytes / 1024.0 + "kb danych w czasie " + watch.getTime() / 1000.0 + "s z prędkością " + (receivedBytes / 1024.0) / (watch.getTime() / 1000.0) + "kb/sec");
+        System.out.println("Wątek (UDP): odebrano " + receivedBytes / 1024.0 + "kb danych w czasie " + watch.getTime(TimeUnit.SECONDS)+ "s z prędkością " + (receivedBytes / 1024.0) / watch.getTime((TimeUnit.SECONDS)) + "kb/sec");
         this.receivedBytes = 0;
       } else if (clientMessage.contains("SIZE:")) {
         sizeOfBuffer = Integer.parseInt(clientMessage.replaceAll("[^0-9]", ""));
         dataReceived = new byte[sizeOfBuffer];
-        watch.start();
+        if(!watch.isStarted()) {
+          watch.reset();
+          watch.start();
+        }
         this.receivedBytes = 0;
       } else {
         this.receivedBytes += sizeOfBuffer;

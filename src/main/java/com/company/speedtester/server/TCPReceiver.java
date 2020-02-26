@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class TCPReceiver extends Receiver {
   private ServerSocket tcpSocket;
@@ -53,7 +54,7 @@ public class TCPReceiver extends Receiver {
             break;
           }
         }
-        System.out.println("Wątek (TCP): odebrano " + receivedBytes/1024.0 + "kb danych w czasie " + watch.getTime() + "s z prędkością " + (receivedBytes/1024.0)/watch.getTime() + "kb/sec");
+        System.out.println("Wątek (TCP): odebrano " + receivedBytes/1024.0 + "kb danych w czasie " + watch.getTime((TimeUnit.SECONDS)) + "s z prędkością " + (receivedBytes/1024.0)/watch.getTime((TimeUnit.SECONDS)) + "kb/sec");
       } catch (IOException e) {
         System.out.println("socket closed");
       }
@@ -67,6 +68,5 @@ public class TCPReceiver extends Receiver {
       e.printStackTrace();
     }
   }
-
 
 }
